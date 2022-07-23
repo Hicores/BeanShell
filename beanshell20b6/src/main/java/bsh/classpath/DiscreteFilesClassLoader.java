@@ -36,14 +36,10 @@ import com.android.dx.dex.cf.CfTranslator;
 import com.android.dx.dex.file.DexFile;
 
 import java.io.*;
-import java.io.File;
 import java.nio.ByteBuffer;
 import java.util.*;
-import java.awt.*;
 import bsh.BshClassManager;
 import bsh.classpath.BshClassPath.ClassSource;
-import bsh.classpath.BshClassPath.DirClassSource;
-import bsh.classpath.BshClassPath.GeneratedClassSource;
 import dalvik.system.InMemoryDexClassLoader;
 
 /**

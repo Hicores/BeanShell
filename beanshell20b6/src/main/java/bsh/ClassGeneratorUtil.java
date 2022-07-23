@@ -27,15 +27,18 @@
 
 package bsh;
 
-import bsh.org.objectweb.asm.*;
-import bsh.org.objectweb.asm.Type;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.*;
+
+import bsh.org.objectweb.asm.ClassWriter;
+import bsh.org.objectweb.asm.CodeVisitor;
+import bsh.org.objectweb.asm.Constants;
+import bsh.org.objectweb.asm.Label;
+import bsh.org.objectweb.asm.Type;
 
 /**
 	ClassGeneratorUtil utilizes the ASM (www.objectweb.org) bytecode generator 
@@ -78,7 +81,7 @@ import java.io.*;
 	It would not be hard to eliminate the use of org.objectweb.asm.Type from
 	this class, making the distribution a tiny bit smaller.
 */
-public class ClassGeneratorUtil implements Constants 
+public class ClassGeneratorUtil implements Constants
 {
 	/** The name of the static field holding the reference to the bsh
 	 	 static This (the callback namespace for static methods) */
@@ -1206,12 +1209,6 @@ public class ClassGeneratorUtil implements Constants
 		return className.substring(i+1);
 	}
 
-	/**
-		A ConstructorArgs object holds evaluated arguments for a constructor
-		call as well as the index of a possible alternate selector to invoke.
-		This object is used by the constructor switch.
-	 	@see #generateConstructor( int , String [] , int , ClassWriter )
-	*/
 	public static class ConstructorArgs
 	{
 		/** A ConstructorArgs which calls the default constructor */
