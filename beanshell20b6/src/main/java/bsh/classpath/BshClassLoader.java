@@ -49,17 +49,10 @@ public class BshClassLoader extends URLClassLoader
 		this.classManager = classManager;
 	}
 
-	/**
-		@param bases URLs JARClassLoader seems to require absolute paths 
-	*/
 	public BshClassLoader( BshClassManager classManager, BshClassPath bcp ) {
 		this( classManager, bcp.getPathComponents() );
 	}
 
-	/**
-		For use by children
-		@param bases URLs JARClassLoader seems to require absolute paths 
-	*/
 	protected BshClassLoader( BshClassManager classManager ) { 
 		this( classManager, new URL [] { } );
 	}
@@ -165,6 +158,11 @@ public class BshClassLoader extends URLClassLoader
 				return cl.loadClass( name );
 			} catch ( ClassNotFoundException e ) { }
 
+		try{
+			return BshLoaderManager.findClass(name);
+		}catch (ClassNotFoundException e){
+
+		}
 		// Try system loader
 		return bcm.plainClassForName( name );
 	}

@@ -38,6 +38,8 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Field;
 
+import bsh.classpath.BshLoaderManager;
+
 /**
     A namespace	in which methods, variables, and imports (class names) live.  
 	This is package public because it is used in the implementation of some 
@@ -1386,7 +1388,14 @@ public class NameSpace
 
 	private Class classForName( String name ) 
 	{
-		return getClassManager().classForName( name );
+		try{
+			Class clz = getClassManager().classForName( name );
+			if (clz != null)return clz;
+		}catch (Exception e){ }
+		try{
+			return BshLoaderManager.findClass(name);
+		}catch (Exception e){ }
+		return null;
 	}
 
 	/**
