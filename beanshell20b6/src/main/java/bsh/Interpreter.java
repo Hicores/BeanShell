@@ -437,7 +437,7 @@ public class Interpreter
         */
         if ( interactive )
 			try { 
-				eval("printBanner();"); 
+				eval("printBanner();","");
 			} catch ( EvalError e ) {
 				println(
 					"BeanShell "+VERSION+" - by Pat Niemeyer (pat@pat.net)");
@@ -734,22 +734,22 @@ public class Interpreter
 	/**
 		Evaluate the string in this interpreter's global namespace.
 	*/
-    public Object eval( String statements ) throws EvalError {
+    public Object eval( String statements,String filePath ) throws EvalError {
 		if ( Interpreter.DEBUG ) debug("eval(String): "+statements);
-		return eval(statements, globalNameSpace);
+		return eval(statements, globalNameSpace,filePath);
 	}
 
 	/**
 		Evaluate the string in the specified namespace.
 	*/
-    public Object eval( String statements, NameSpace nameSpace ) 
+    public Object eval( String statements, NameSpace nameSpace ,String filePath)
 		throws EvalError 
 	{
 
 		String s = ( statements.endsWith(";") ? statements : statements+";" );
         return eval( 
 			new StringReader(s), nameSpace, 
-			"inline evaluation of: ``"+ showEvalString(s)+"''" );
+			filePath);
     }
 
 	private String showEvalString( String s ) {
@@ -1204,7 +1204,7 @@ public class Interpreter
 	private String getBshPrompt() 
 	{
 		try {
-			return (String)eval("getBshPrompt()");
+			return (String)eval("getBshPrompt()","inner");
 		} catch ( Exception e ) {
 			return "bsh % ";
 		}
